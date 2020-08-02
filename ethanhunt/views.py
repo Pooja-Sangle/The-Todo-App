@@ -2,6 +2,10 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import UserProfile
+from rest_framework import viewsets
+from .serializers import UserProfileSerializer
+
+
 # Create your views here.
 # from django.http import HttpResponse
 def home(request):
@@ -15,9 +19,11 @@ def home(request):
         date=request.POST.get("date")
         reg=UserProfile(agent_id=aid,TodoTitle=todotitle,TodoDesc=TODODesc,Category=category,DueDate=date)
         reg.save()
+        todo=UserProfile.objects.order_by('DueDate').reverse()
+        print (todo)
         messages.info(request,"successfully added todo item")
-        return render(request,"home.html",{'todo':todo})
-    return render(request,"home.html",{'todo':todo})
+        return render(request,"home.html",{'todo1':todo})
+    return render(request,"home.html",{'todo1':todo})
 
 def signup(request):
     if(request.method=="POST"):
@@ -88,3 +94,7 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return render(request,"home.html")
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset=UserProfile.objects.all().order_by('DueDate').reverse()
+    serializer_class=UserProfileSerializer

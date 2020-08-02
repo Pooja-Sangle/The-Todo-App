@@ -14,8 +14,11 @@
 	{% endfor %}
 </br></br></br></br>
 <h1>TODO LIST OF AGENT</h1>
-{% for i in todo %}
-<h4>{{todo.TodoTitle}} || {{todo.TodoDesc}} || {{todo.Category}} || {{todo.DueDate}}</h4>
+{% for i in todo1 %}
+
+    {% ifequal i.agent_id|slugify user.username|slugify %}
+<h4>{{user.username}}||{{i.agent_id}} || {{i.TodoTitle}} || {{i.TodoDesc}} || {{i.Category}} || {{i.DueDate}}</h4>
+    {% endifequal %}
 {% endfor %}
 </br></br></br></br>
     <form action="/home/" method="POST">

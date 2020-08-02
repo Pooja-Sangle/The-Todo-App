@@ -7,3 +7,6 @@ class UserProfile(models.Model):
     TodoDesc=models.CharField(max_length=100)
     Category=models.CharField(max_length=100)
     DueDate=models.DateField()
+
+    def __str__(self):
+        return self.agent_id
